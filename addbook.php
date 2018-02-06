@@ -1,5 +1,5 @@
 <?php
-    
+   require('dbconnection.php');
 ?>
 <html>
 
@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<form action="" method="post">
+	<form action="addbook.php" method="post">
 	<h1>Library Database</h1>
 	<fieldset>
 		<legend>Book Information</legend>
@@ -27,13 +27,27 @@
                     <th>Pages</th>
                     <th>Author</th>
                     <th>Published Year</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                
-                ?>
+                $conn = new mysqli("localhost", "root", "", "library") or die(mysqli_error());
+                $query = $conn->query("SELECT * FROM `books` ORDER BY `BookID`") or die (mysqli_error());
+               while($fetch = $query->fetch_array()){
+                $title = $fetch['Title'];
+                $pages = $fetch['Pages'];
+                $author = $fetch['Author'];
+                $year = $fetch['PublishedYear'];
+
+
+
+                echo "<tr>
+                                                <td>$title</td>
+                                                <td>$pages</td>
+												<td>$author</td>
+												<td>$year</td>";
+               }
+                                                        ?>
             </tbody>
         </table>
 	</form>
@@ -44,6 +58,7 @@
 		}
 	</script>
 <?php 
-    $dbconn->close();
+    $conn->close();
+?>
 </body>
 </html>
